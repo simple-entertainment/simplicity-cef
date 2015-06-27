@@ -2,9 +2,12 @@ cmake_minimum_required(VERSION 3.2)
 
 include(../simplicity/simplicity-common.cmake)
 
-# Project
+# Project Dependencies
 #########################
 project(simplicity-cef)
+
+# Project
+#########################
 
 add_subdirectory(lib/cef_linux64)
 find_library(CEF_PATH cef ${CMAKE_CURRENT_SOURCE_DIR}/lib/cef_linux64/Release)
@@ -52,4 +55,3 @@ target_link_libraries(simplicity-cef-subprocess simplicity)
 
 # X
 target_link_libraries(simplicity-cef-subprocess X11)
-

@@ -12,10 +12,13 @@
  * This file is part of simplicity.
  * See the LICENSE file for the full license governing this code.
  */
-#ifndef CEFENGINE_H_
-#define CEFENGINE_H_
+#ifndef CEFBROWSER_H_
+#define CEFBROWSER_H_
 
-#include <simplicity/engine/Engine.h>
+#include <cef_app.h>
+
+#include <simplicity/entity/Component.h>
+#include <simplicity/messaging/Message.h>
 #include <simplicity/rendering/Texture.h>
 #include <simplicity/resources/Resource.h>
 
@@ -28,20 +31,31 @@ namespace simplicity
 		 * An engine that renders HTML to a texture using the Chromium Embedded Framework.
 		 * </p>
 		 */
-		class CEFEngine : public Engine
+		class CEFBrowser : public Component
 		{
 			public:
-				void advance() override;
+				CEFBrowser(const Resource& htmlPage, std::weak_ptr<Texture> texture);
 
-				std::unique_ptr<Entity> createUIEntity(const Resource& htmlPage) const;
+				void load(const Entity& entity);
 
-				void onAddEntity(Entity& entity) override;
+				bool onKeyboardButton(const Message& message);
 
-				void onPlay() override;
+				bool onMouseButton(const Message& message);
 
-				void onStop() override;
+				bool onMouseMove(const Message& message);
+
+				void unload();
+
+			private:
+				CefRefPtr<CefBrowser> browser;
+
+				const Entity* entity;
+
+				const Resource& initialPage;
+
+				std::weak_ptr<Texture> texture;
 		};
 	}
 }
 
-#endif /* CEFENGINE_H_ */
+#endif /* CEFBROWSER_H_ */

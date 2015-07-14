@@ -56,10 +56,9 @@ add_custom_command(TARGET simplicity-cef POST_BUILD
 				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef_200_percent.pak ${CMAKE_BINARY_DIR}/assets/cef
 				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/devtools_resources.pak ${CMAKE_BINARY_DIR}/assets/cef
 				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_BINARY_DIR}
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_BINARY_DIR}/lib
 				   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CEF_RES_DIR}/locales ${CMAKE_BINARY_DIR}/assets/cef/locales
 				   COMMAND chmod 4755 ${CMAKE_BINARY_DIR}/chrome-sandbox
-				   COMMENT "simplicity::cef || Copying CEF files\nsimplicity::cef || chrome-sandbox needs to have specific permissions and be owned by root, run the following commands:\nsimplicity::cef || sudo chmod 4755 ${CMAKE_BINARY_DIR}/chrome-sandbox\nsimplicity::cef || sudo chown root:root ${CMAKE_BINARY_DIR}/chrome-sandbox")
+				   COMMENT "simplicity::cef || Copying CEF files\nsimplicity::cef || chrome-sandbox needs to have specific permissions and be owned by root, run the following commands:\nsimplicity::cef || sudo chown root:root ${CMAKE_BINARY_DIR}/chrome-sandbox\nsimplicity::cef || sudo chmod 4755 ${CMAKE_BINARY_DIR}/chrome-sandbox")
 
 # Subprocess Target
 #########################
@@ -72,10 +71,16 @@ add_executable(simplicity-cef-subprocess ${SRC_FILES_SUBPROCESS})
 target_include_directories(simplicity-cef-subprocess PUBLIC lib/cef_linux64)
 target_include_directories(simplicity-cef-subprocess PUBLIC lib/cef_linux64/include)
 target_link_libraries(simplicity-cef-subprocess libcef_dll_wrapper)
-target_link_libraries(simplicity-cef-subprocess ${CEF_PATH})
+target_link_libraries(simplicity-cef-subprocess cef)
 
 # Simplicity
 target_link_libraries(simplicity-cef-subprocess simplicity)
 
 # X
 target_link_libraries(simplicity-cef-subprocess X11)
+
+# Subprocess Target Resources
+#########################
+add_custom_command(TARGET simplicity-cef-subprocess POST_BUILD
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_BINARY_DIR}/lib
+				   COMMENT "simplicity::cef || Copying CEF subprocess files")

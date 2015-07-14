@@ -14,8 +14,13 @@
  */
 #include <cef_app.h>
 
+#include <simplicity/model/ModelFactory.h>
+#include <simplicity/rendering/RenderingFactory.h>
+#include <simplicity/Simplicity.h>
+#include <simplicity/windowing/WindowEngine.h>
+
+#include "CEFBrowser.h"
 #include "CEFEngine.h"
-#include "SimpleClient.h"
 
 using namespace std;
 
@@ -23,15 +28,46 @@ namespace simplicity
 {
 	namespace simcef
 	{
-		CEFEngine::CEFEngine(const Resource& htmlPage, Texture& texture) :
-				htmlPage(htmlPage),
-				texture(texture)
-		{
-		}
-
 		void CEFEngine::advance()
 		{
 			CefDoMessageLoopWork();
+		}
+
+		unique_ptr<Entity> CEFEngine::createUIEntity(const Resource& htmlPage) const
+		{
+			WindowEngine* windowEngine = Simplicity::getEngine<WindowEngine>();
+
+			unique_ptr<Entity> uiEntity(new Entity);
+
+			unique_ptr<Shader> vertexShader =
+					RenderingFactory::getInstance()->createShader(Shader::Type::VERTEX, "clip");
+			unique_ptr<Shader> fragmentShader =
+					RenderingFactory::getInstance()->createShader(Shader::Type::FRAGMENT, "simple");
+			shared_ptr<Pipeline> uiPipeline =
+					RenderingFactory::getInstance()->createPipeline(move(vertexShader), nullptr,
+																	move(fragmentShader));
+
+			shared_ptr<Texture> uiTexture =
+					RenderingFactory::getInstance()->createTexture(nullptr, windowEngine->getWidth(),
+																   windowEngine->getHeight(), PixelFormat::BGRA);
+
+			unique_ptr<Mesh> uiQuad = ModelFactory::getInstance()->createSquareMesh(1.0f);
+			uiQuad->getBuffer()->setPipeline(uiPipeline);
+			uiQuad->setTexture(uiTexture);
+			uiEntity->addUniqueComponent(move(uiQuad));
+
+			unique_ptr<Component> uiBrowser(new CEFBrowser(htmlPage, uiTexture));
+			uiEntity->addUniqueComponent(move(uiBrowser));
+
+			return move(uiEntity);
+		}
+
+		void CEFEngine::onAddEntity(Entity& entity)
+		{
+			for (CEFBrowser* browser : entity.getComponents<CEFBrowser>())
+			{
+				browser->load(entity);
+			}
 		}
 
 		void CEFEngine::onPlay()
@@ -42,16 +78,6 @@ namespace simplicity
 			CefString(&settings.resources_dir_path).FromASCII("assets/cef");
 
 			CefInitialize(CefMainArgs(0, nullptr), settings, nullptr, nullptr);
-
-			CefWindowInfo windowInfo;
-
-			// We are supposed to pass a handle to our window here but CEF never actually needs it on Linux.
-			// TODO Fix this because it is needed on other platforms.
-			windowInfo.SetAsWindowless(0, true);
-
-			CefRefPtr<SimpleClient> client(new SimpleClient(texture));
-			CefBrowserHost::CreateBrowserSync(windowInfo, client.get(), htmlPage.getUri().c_str(), CefBrowserSettings(),
-											  nullptr);
 		}
 
 		void CEFEngine::onStop()

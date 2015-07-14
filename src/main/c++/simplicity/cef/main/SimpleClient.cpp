@@ -14,11 +14,13 @@
  */
 #include "SimpleClient.h"
 
+using namespace std;
+
 namespace simplicity
 {
     namespace simcef
     {
-		SimpleClient::SimpleClient(Texture& texture) :
+		SimpleClient::SimpleClient(weak_ptr<Texture> texture) :
 				texture(texture)
 		{
 		}
@@ -33,8 +35,12 @@ namespace simplicity
 			rect.x = 0;
 			rect.y = 0;
 
-			rect.height = texture.getHeight();
-			rect.width = texture.getWidth();
+			if (!texture.expired())
+			{
+				shared_ptr<Texture> sharedTexture = texture.lock();
+				rect.height = sharedTexture->getHeight();
+				rect.width = sharedTexture->getWidth();
+			}
 
 			return true;
 		}
@@ -43,7 +49,10 @@ namespace simplicity
 								   const CefRenderHandler::RectList& dirtyRects, const void* buffer, int width,
 								   int height)
 		{
-			texture.setRawData(reinterpret_cast<const char*>(buffer));
+			if (!texture.expired())
+			{
+				texture.lock()->setRawData(reinterpret_cast<const char*>(buffer));
+			}
 		}
 	}
 }

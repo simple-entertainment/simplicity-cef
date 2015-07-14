@@ -14,4 +14,5 @@
  */
 
 // Core
+#include "main/CEFBrowser.h"
 #include "main/CEFEngine.h"

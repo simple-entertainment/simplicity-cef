@@ -26,7 +26,7 @@ namespace simplicity
         class SimpleClient : public CefClient, public CefRenderHandler
         {
             public:
-				SimpleClient(Texture& texture);
+				SimpleClient(std::weak_ptr<Texture> texture);
 
 				CefRefPtr<CefRenderHandler> GetRenderHandler() override;
 
@@ -36,7 +36,7 @@ namespace simplicity
 							 const void* buffer, int width, int height) override;
 
             private:
-				Texture& texture;
+                std::weak_ptr<Texture> texture;
 
                 IMPLEMENT_REFCOUNTING(SimpleClient);
         };

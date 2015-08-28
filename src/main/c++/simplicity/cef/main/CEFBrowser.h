@@ -36,6 +36,8 @@ namespace simplicity
 			public:
 				CEFBrowser(const Resource& htmlPage, std::weak_ptr<Texture> texture);
 
+				void executeJavaScript(const std::string& code);
+
 				void load(const Entity& entity);
 
 				bool onKeyboardButton(const Message& message);

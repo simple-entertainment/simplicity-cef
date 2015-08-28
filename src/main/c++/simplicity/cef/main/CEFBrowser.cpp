@@ -37,6 +37,11 @@ namespace simplicity
 		{
 		}
 
+		void CEFBrowser::executeJavaScript(const std::string& code)
+		{
+			browser->GetMainFrame()->ExecuteJavaScript(code, browser->GetMainFrame()->GetURL(), 0);
+		}
+
 		void CEFBrowser::load(const Entity& entity)
 		{
 			this->entity = &entity;

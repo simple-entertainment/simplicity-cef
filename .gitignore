@@ -6,6 +6,7 @@ CMakeFiles
 Debug
 MinSizeRel
 Release
+!lib/cef_linux64/Release
 RelWithDebInfo
 
 # Eclipse

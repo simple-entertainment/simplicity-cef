@@ -46,19 +46,19 @@ target_link_libraries(simplicity-cef X11)
 # Main Target Resources
 #########################
 add_custom_command(TARGET simplicity-cef POST_BUILD
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/chrome-sandbox ${CMAKE_BINARY_DIR}
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libcef.so ${CMAKE_BINARY_DIR}/lib
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libffmpegsumo.so ${CMAKE_BINARY_DIR}/lib
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libpdf.so ${CMAKE_BINARY_DIR}/lib
-				   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/assets/cef
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef.pak ${CMAKE_BINARY_DIR}/assets/cef
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef_100_percent.pak ${CMAKE_BINARY_DIR}/assets/cef
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef_200_percent.pak ${CMAKE_BINARY_DIR}/assets/cef
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/devtools_resources.pak ${CMAKE_BINARY_DIR}/assets/cef
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_BINARY_DIR}
-				   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CEF_RES_DIR}/locales ${CMAKE_BINARY_DIR}/assets/cef/locales
-				   COMMAND chmod 4755 ${CMAKE_BINARY_DIR}/chrome-sandbox
-				   COMMENT "simplicity::cef || Copying CEF files\nsimplicity::cef || chrome-sandbox needs to have specific permissions and be owned by root, run the following commands:\nsimplicity::cef || sudo chown root:root ${CMAKE_BINARY_DIR}/chrome-sandbox\nsimplicity::cef || sudo chmod 4755 ${CMAKE_BINARY_DIR}/chrome-sandbox")
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/chrome-sandbox ${CMAKE_SOURCE_DIR}/build
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libcef.so ${CMAKE_SOURCE_DIR}/build/lib
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libffmpegsumo.so ${CMAKE_SOURCE_DIR}/build/lib
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_BIN_DIR}/libpdf.so ${CMAKE_SOURCE_DIR}/build/lib
+				   COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_SOURCE_DIR}/build/assets/cef
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef.pak ${CMAKE_SOURCE_DIR}/build/assets/cef
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef_100_percent.pak ${CMAKE_SOURCE_DIR}/build/assets/cef
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/cef_200_percent.pak ${CMAKE_SOURCE_DIR}/build/assets/cef
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/devtools_resources.pak ${CMAKE_SOURCE_DIR}/build/assets/cef
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_SOURCE_DIR}/build
+				   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CEF_RES_DIR}/locales ${CMAKE_SOURCE_DIR}/build/assets/cef/locales
+				   COMMAND chmod 4755 ${CMAKE_SOURCE_DIR}/build/chrome-sandbox
+				   COMMENT "simplicity::cef || Copying CEF files\nsimplicity::cef || chrome-sandbox needs to have specific permissions and be owned by root, run the following commands:\nsimplicity::cef || sudo chown root:root ${CMAKE_SOURCE_DIR}/build/chrome-sandbox\nsimplicity::cef || sudo chmod 4755 ${CMAKE_SOURCE_DIR}/build/chrome-sandbox")
 
 # Subprocess Target
 #########################
@@ -82,5 +82,5 @@ target_link_libraries(simplicity-cef-subprocess X11)
 # Subprocess Target Resources
 #########################
 add_custom_command(TARGET simplicity-cef-subprocess POST_BUILD
-				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_BINARY_DIR}/lib
+				   COMMAND ${CMAKE_COMMAND} -E copy ${CEF_RES_DIR}/icudtl.dat ${CMAKE_SOURCE_DIR}/build/lib
 				   COMMENT "simplicity::cef || Copying CEF subprocess files")

@@ -1,37 +1,5 @@
-# CMake
+# CEF
 #########################
-cmake_install.cmake
-CMakeCache.txt
-CMakeFiles
-Debug
-MinSizeRel
-Release
+lib/cef_linux64
 !lib/cef_linux64/Release
-RelWithDebInfo
-
-# Eclipse
-#########################
-*.cproject
-*.metadata
-*.project
-*.settings
-
-# Make
-#########################
-Makefile
-
-# Misc
-#########################
-*~
-
-# Output
-#########################
-libsimplicity-cef.a
-
-# Visual Studio
-#########################
-*.filters
-*.sln
-*.user
-*.vcxproj
 

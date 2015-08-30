@@ -1,5 +1,5 @@
 # CEF
 #########################
-lib/cef_linux64
-!lib/cef_linux64/Release
+# CEF debug libs total to nearly 1GB! If you want to link against them, you'll have to download them yourself.
+lib/cef_linux64/Debug
 

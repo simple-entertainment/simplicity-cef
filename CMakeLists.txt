@@ -23,7 +23,7 @@ file(GLOB_RECURSE SRC_FILES_SUBPROCESS src/main/c++/simplicity/cef/subprocess/*.
 
 # Main Target
 #########################
-add_library(simplicity-cef STATIC ${SRC_FILES})
+add_library(simplicity-cef ${SIMPLE_LINK_TYPE} ${SRC_FILES})
 target_include_directories(simplicity-cef PUBLIC src/main/c++)
 
 # Main Target Dependencies

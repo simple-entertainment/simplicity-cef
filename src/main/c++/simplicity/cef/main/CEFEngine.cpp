@@ -39,17 +39,15 @@ namespace simplicity
 
 			unique_ptr<Entity> uiEntity(new Entity);
 
-			unique_ptr<Shader> vertexShader =
-					RenderingFactory::getInstance()->createShader(Shader::Type::VERTEX, "clip");
-			unique_ptr<Shader> fragmentShader =
-					RenderingFactory::getInstance()->createShader(Shader::Type::FRAGMENT, "simple");
-			shared_ptr<Pipeline> uiPipeline =
-					RenderingFactory::getInstance()->createPipeline(move(vertexShader), nullptr,
-																	move(fragmentShader));
+			unique_ptr<Shader> vertexShader = RenderingFactory::createShader(Shader::Type::VERTEX, "clip");
+			unique_ptr<Shader> fragmentShader = RenderingFactory::createShader(Shader::Type::FRAGMENT, "simple");
+			shared_ptr<Pipeline> uiPipeline = RenderingFactory::createPipeline(move(vertexShader),
+																			   nullptr,
+																			   move(fragmentShader));
 
 			shared_ptr<Texture> uiTexture =
-					RenderingFactory::getInstance()->createTexture(nullptr, windowEngine->getWidth(),
-																   windowEngine->getHeight(), PixelFormat::BGRA);
+					RenderingFactory::createTexture(nullptr, windowEngine->getWidth(),
+													windowEngine->getHeight(), PixelFormat::BGRA);
 
 			ModelFactory::Recipe recipe;
 			recipe.shape = ModelFactory::Recipe::Shape::RECTANGLE;

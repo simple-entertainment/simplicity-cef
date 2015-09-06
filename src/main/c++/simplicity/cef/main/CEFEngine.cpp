@@ -51,7 +51,10 @@ namespace simplicity
 					RenderingFactory::getInstance()->createTexture(nullptr, windowEngine->getWidth(),
 																   windowEngine->getHeight(), PixelFormat::BGRA);
 
-			unique_ptr<Mesh> uiQuad = ModelFactory::getInstance()->createSquareMesh(1.0f);
+			ModelFactory::Recipe recipe;
+			recipe.shape = ModelFactory::Recipe::Shape::RECTANGLE;
+			recipe.dimensions = Vector3(2.0f, 2.0f, 0.0f);
+			unique_ptr<Mesh> uiQuad = ModelFactory::cookMesh(recipe);
 			uiQuad->getBuffer()->setPipeline(uiPipeline);
 			uiQuad->setTexture(uiTexture);
 			uiEntity->addUniqueComponent(move(uiQuad));

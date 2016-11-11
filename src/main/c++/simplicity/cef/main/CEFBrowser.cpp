@@ -31,7 +31,6 @@ namespace simplicity
 	{
 		CEFBrowser::CEFBrowser(const Resource& initialPage, weak_ptr<Texture> texture) :
 				browser(nullptr),
-				entity(nullptr),
 				initialPage(initialPage),
 				texture(texture)
 		{
@@ -42,10 +41,8 @@ namespace simplicity
 			browser->GetMainFrame()->ExecuteJavaScript(code, browser->GetMainFrame()->GetURL(), 0);
 		}
 
-		void CEFBrowser::load(const Entity& entity)
+		void CEFBrowser::load()
 		{
-			this->entity = &entity;
-
 			CefWindowInfo windowInfo;
 
 			// We are supposed to pass a handle to our window here but CEF never actually needs it on Linux.

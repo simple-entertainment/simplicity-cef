@@ -15,9 +15,11 @@
 #ifndef CEFENGINE_H_
 #define CEFENGINE_H_
 
+#include <map>
+
 #include <simplicity/engine/Engine.h>
-#include <simplicity/rendering/Texture.h>
-#include <simplicity/resources/Resource.h>
+
+#include "CEFEngineState.h"
 
 namespace simplicity
 {
@@ -31,15 +33,18 @@ namespace simplicity
 		class CEFEngine : public Engine
 		{
 			public:
-				void advance() override;
+				void advance(Scene& scene) override;
 
-				std::unique_ptr<Entity> createUIEntity(const Resource& htmlPage) const;
+				void onBeforeOpenScene(Scene& scene) override;
 
-				void onAddEntity(Entity& entity) override;
+				void onCloseScene(Scene& scene) override;
 
 				void onPlay() override;
 
 				void onStop() override;
+
+			private:
+				std::map<Scene*, CEFEngineState*> state;
 		};
 	}
 }

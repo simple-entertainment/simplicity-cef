@@ -38,7 +38,7 @@ namespace simplicity
 
 				void executeJavaScript(const std::string& code);
 
-				void load(const Entity& entity);
+				void load();
 
 				bool onKeyboardButton(const Message& message);
 
@@ -50,8 +50,6 @@ namespace simplicity
 
 			private:
 				CefRefPtr<CefBrowser> browser;
-
-				const Entity* entity;
 
 				const Resource& initialPage;
 
